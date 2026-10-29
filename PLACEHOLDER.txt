@@ -1,0 +1,9 @@
+Drop real car model files here as `<slug>.glb` (e.g. `bmw-m4-competition.glb`).
+Then flip the car's `model.kind` to `'glb'` in `src/data/cars.ts`.
+
+Requirements for the viewer:
+- glTF 2.0 binary (.glb), version 2.
+- A material named `Body_Paint` — the runtime colour picker swaps this one material.
+- Scale in metres, origin on the floor at the wheels, nose pointing +Z.
+
+Verify any files with: `npm run verify:glb`

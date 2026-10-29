@@ -1,0 +1,262 @@
+@import '@fontsource-variable/inter';
+@import '@fontsource/cormorant-garamond/400.css';
+@import '@fontsource/cormorant-garamond/600.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Six-colour palette. Car paint is the only other colour on the page. */
+:root {
+  /* Black — main background */
+  --bg: #000000;
+  /* Dark Grey — sections and cards */
+  --surface: #1a1a1a;
+  /* Grey — secondary text and borders */
+  --muted: #666666;
+  /* Light Grey — detail text */
+  --detail: #b8b8b8;
+  /* Off-White — main text */
+  --ink: #f5f3ee;
+  /* White — highlights and buttons */
+  --highlight: #ffffff;
+
+  --glass-bg: rgba(26, 26, 26, 0.62);
+  --glass-border: rgba(184, 184, 184, 0.18);
+  --glass-blur: 16px;
+
+  --nav-h: 68px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    background-color: var(--bg);
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* Keep the fixed navbar from covering in-page anchors on mobile. */
+  :target {
+    scroll-margin-top: calc(var(--nav-h) + 16px);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: theme('fontFamily.display');
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--highlight);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--highlight);
+    color: var(--bg);
+  }
+
+  /* Only the canvas eats touch gestures; the rest of the page still scrolls. */
+  .stage {
+    touch-action: none;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* Native controls inherit OS colours otherwise. */
+  input[type='checkbox'] {
+    accent-color: var(--highlight);
+  }
+}
+
+@layer components {
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur)) saturate(115%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(115%);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+  }
+
+  .glass-strong {
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+  }
+
+  .label {
+    font-family: theme('fontFamily.sans');
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--detail);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.7rem 1.4rem;
+    border-radius: 999px;
+    border: 1px solid var(--muted);
+    background: transparent;
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    transition:
+      background-color 300ms var(--ease-out),
+      border-color 300ms var(--ease-out),
+      color 300ms var(--ease-out),
+      transform 300ms var(--ease-out),
+      opacity 200ms linear;
+  }
+
+  .btn:hover:not(:disabled) {
+    background: rgba(245, 243, 238, 0.08);
+    border-color: var(--detail);
+    color: var(--highlight);
+  }
+
+  .btn:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background: var(--highlight);
+    color: var(--bg);
+    border-color: var(--highlight);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--bg);
+  }
+
+  .field {
+    width: 100%;
+    min-height: 46px;
+    padding: 0.65rem 0.9rem;
+    border-radius: 12px;
+    background: var(--surface);
+    border: 1px solid var(--muted);
+    color: var(--ink);
+    transition: border-color 200ms linear;
+  }
+
+  .field::placeholder {
+    color: var(--muted);
+  }
+
+  .field:focus {
+    border-color: var(--highlight);
+  }
+
+  /* Errors stay on-palette: white text plus an explicit label, not colour alone. */
+  .field[aria-invalid='true'] {
+    border-color: var(--highlight);
+    background: var(--surface);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 34px;
+    padding: 0.25rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid var(--muted);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--detail);
+  }
+
+  .rule {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(90deg, transparent, var(--muted), transparent);
+  }
+}
+
+@layer utilities {
+  .safe-b {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .safe-t {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  .dvh {
+    height: 100dvh;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 600ms var(--ease-out),
+      transform 600ms var(--ease-out);
+  }
+
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Reduced motion: kill smooth scroll, transitions and the reveal offset. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
